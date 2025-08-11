@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JS Page Load Events</title>
+</head>
+
+<body>
+    <script>
+        addEventListener('DOMContentLoaded', (event) => {
+            console.log('The DOM is fully loaded.');
+        });
+//Typical use: Run JS that manipulates the DOM without waiting for images or CSS.
+//Faster than waiting for the full load event.
+
+        addEventListener('load', (event) => {
+            console.log('The page is fully loaded.');
+        });
+//Typical use:
+//Run code that depends on images or other resources being fully available.
+//Initialize things like slideshows or image-heavy layouts.
+
+        addEventListener('beforeunload', (event) => {
+            // show the confirmation dialog
+            event.preventDefault();
+            // Google Chrome requires returnValue to be set.
+            event.returnValue = '';
+        });
+//When it fires:Right before the user leaves the page (closing tab, refreshing, navigating away).
+//Typical use:
+//Warn the user about unsaved changes.
+//Ask for confirmation before leaving.
+        addEventListener('unload', (event) => {
+            // send analytic data
+        });
+
+        //When it fires:After the document is being unloaded (navigation away or close).
+//Typical use:Send analytics, save session info, clean up resources.
+//You can’t stop navigation here — it’s purely for cleanup.
+    </script>
+</body>
+</html>
