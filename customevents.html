@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>custom events</title>
+</head>
+<body>
+        <div class="note">JS Custom Event Demo</div>
+    <script>
+        const divEl=document.querySelector('.note')
+//         function highlight(elem) {
+//     const bgColor = 'yellow';
+//     elem.style.backgroundColor = bgColor;
+// }
+
+
+    //    function highlight(elem, callback) {
+    //         const bgColor = 'yellow';
+    //         elem.style.backgroundColor = bgColor;
+
+    //         if (callback && typeof callback === 'function') {
+    //             callback(elem);
+    //         }
+    //     }
+
+    //     let note = document.querySelector('.note');
+    //     function addBorder(elem) {
+    //         elem.style.border = "solid 1px red";
+    //     }
+//Why Custom Events are Useful
+// Loose coupling: Highlight function ko pata nahi hota ki border lagana hai, 
+// message dikhana hai ya kuch aur. Woh sirf event fire karta hai.
+
+// Multiple reactions: Same "highlight" event pe tum 5 different listeners laga sakte ho.
+
+// Code separation: UI ka code ek file me, logic dusre me.
+
+        function highlight(elem) {
+    const bgColor = 'yellow';
+   // const coloring='pink'
+    elem.style.backgroundColor = bgColor;
+    elem.style.color='pink'
+
+    // Custom event banaya
+    let event = new CustomEvent('highlight', {
+        detail: {
+            backgroundColor: bgColor,
+            color: elem.style.color='pink'
+       
+        }
+    });
+
+    // Custom event fire kiya
+    elem.dispatchEvent(event);
+}
+       // highlight(note, addBorder);
+
+
+divEl.addEventListener('highlight', function(e) {
+    divEl.style.border = "solid 1px red"; // border lagana
+    console.log(e.detail); // { backgroundColor: 'yellow' }
+});
+highlight(divEl)
+
+
+// Scenario:
+// Tum ek pizza shop chalate ho, aur tumne ek function banaya hai:
+
+// function pizzaReady() {
+//     console.log("🍕 Pizza is ready!");
+// }
+// Ab socho, pizza ready hone ke baad:
+// Customer ko notify karna hai 📢
+// Delivery boy ko bhejna hai 🛵
+// Kitchen ka inventory update karna hai 📦
+// Agar tum direct pizzaReady() me yeh sab likh do, toh:
+
+// function pizzaReady() {
+//     console.log("🍕 Pizza is ready!");
+//     console.log("📢 Notify customer");
+//     console.log("🛵 Send delivery boy");
+//     console.log("📦 Update inventory");
+// }
+// Problem: Agar tum ek kaam change karte ho (jaise delivery ka system), tumhe pizzaReady() ke code me edit karna hoga.
+// Yeh function tight-coupled ho gaya — har kaam yahin likha hai.
+
+// Custom Event approach
+
+// function pizzaReady() {
+//     console.log("🍕 Pizza is ready!");
+//     document.dispatchEvent(new CustomEvent("pizzaReady", {
+//         detail: { flavor: "Margherita", size: "Large" }
+//     }));
+// }
+
+// // Listeners — alag-alag kaam
+// document.addEventListener("pizzaReady", (e) => {
+//     console.log(`📢 Notifying customer for ${e.detail.flavor}`);
+// });
+// document.addEventListener("pizzaReady", () => {
+//     console.log("🛵 Sending delivery boy");
+// });
+
+// document.addEventListener("pizzaReady", () => {
+//     console.log("📦 Updating inventory");
+// });
+
+// // Trigger
+// pizzaReady();
+// Output:
+
+// 🍕 Pizza is ready!
+// 📢 Notifying customer for Margherita
+// 🛵 Sending delivery boy
+// 📦 Updating inventory
+// Fayde
+// pizzaReady() sirf event trigger karta hai.
+
+// Har kaam listener me hota hai — jo chahe hata do, add karo, order badal do — pizzaReady() ko touch nahi karna padta.
+
+// Multiple teams (delivery, customer care, inventory) apna-apna listener laga sakti hain, bina ek dusre ka code tod ke.
+
+// Custom events ka main maksad yeh hi hai —
+// “Event trigger karo, kaam ka decision listener par chhodo.” 
+
+    </script>
+</body>
+</html>
