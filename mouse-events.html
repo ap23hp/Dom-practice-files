@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JS Mouse Events - Button Demo</title>
+    <style>
+      #track {
+        background-color: rgb(161, 217, 98);
+        height: 200px;
+        width: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Move your mouse to see its location.</p>
+    <div id="track"></div>
+    <p id="log"></p>
+    <button id="btn">
+      Click me with any mouse button: left, right, middle, ...
+    </button>
+    <p id="message"></p>
+    <script>
+      let btn = document.querySelector("#btn");
+
+      // disable context menu when right-mouse clicked
+      btn.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+      });
+
+      // show the mouse event message
+      btn.addEventListener("mouseup", (e) => {
+        let msg = document.querySelector("#message");
+        switch (e.button) {
+          case 0:
+            msg.textContent = "Left mouse button clicked.";
+            break;
+          case 1:
+            msg.textContent = "Middle mouse button clicked.";
+            break;
+          case 2:
+            msg.textContent = "Right mouse button clicked.";
+            break;
+          default:
+            msg.textContent = `Unknown mouse button code: ${event.button}`;
+        }
+      });
+
+      let track = document.querySelector("#track");
+      track.addEventListener("mousemove", (e) => {
+        let log = document.querySelector("#log");
+        log.innerText = `
+                  Screen X/Y: (${e.screenX}, ${e.screenY})
+                  Client X/Y: (${e.clientX}, ${e.clientY})`;
+      });
+      //The screenX and screenY properties return the horizontal and vertical coordinates of the
+      // mouse pointer in screen coordinates.
+      //The clientX and clientY properties of the event object
+      //returns horizontal and vertical coordinates within the application’s
+      //  client area at which the mouse event occurred.
+    </script>
+  </body>
+</html>
